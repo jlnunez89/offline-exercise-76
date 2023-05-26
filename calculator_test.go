@@ -83,4 +83,49 @@ func TestCalculateInterest(t *testing.T) {
 			require.Equal(t, expectedInterest, calculatedInterest, "Expected calculated interest for %v to be %v, but got %v", balance, expectedInterest, calculatedInterest)
 		}
 	})
+
+	t.Run("Test balances between 10000 and 50000", func(t *testing.T) {
+		// arrange
+		epsilon := 0.01 // since one cent is normally the smallest unit of currency
+		lowerLimitBalance := 10000.0
+		upperLimitBalance := 50000.0 - epsilon
+		expectedInterestPercentage := 0.025
+
+		for balance := lowerLimitBalance; balance < upperLimitBalance; balance += epsilon {
+			// act
+			calculatedInterest := CalculateInterest(balance)
+			expectedInterest := math.RoundToEven(balance*expectedInterestPercentage*100.0) / 100.0 // round to nearest even number because finance
+
+			// assert
+			require.Equal(t, expectedInterest, calculatedInterest, "Expected calculated interest for %v to be %v, but got %v", balance, expectedInterest, calculatedInterest)
+		}
+	})
+
+	t.Run("Test balances above 50000", func(t *testing.T) {
+		// arrange
+		epsilon := 0.01 // since one cent is normally the smallest unit of currency
+		lowerLimitBalance := 50000.0
+		upperLimitBalance := 100000.0 - epsilon
+		expectedInterestPercentage := 0.03
+
+		for balance := lowerLimitBalance; balance < upperLimitBalance; balance += epsilon {
+			// act
+			calculatedInterest := CalculateInterest(balance)
+			expectedInterest := math.RoundToEven(balance*expectedInterestPercentage*100.0) / 100.0 // round to nearest even number because finance
+
+			// assert
+			require.Equal(t, expectedInterest, calculatedInterest, "Expected calculated interest for %v to be %v, but got %v", balance, expectedInterest, calculatedInterest)
+		}
+
+		// sporadically test a few values above 100,000:
+		discreetBalances := []float64{150000.0, 300000.0, 500000.0, 1000000.0, 2000000.0, 10000000.00}
+		for _, balance := range discreetBalances {
+			// act
+			calculatedInterest := CalculateInterest(balance)
+			expectedInterest := math.RoundToEven(balance*expectedInterestPercentage*100.0) / 100.0 // round to nearest even number because finance
+
+			// assert
+			require.Equal(t, expectedInterest, calculatedInterest, "Expected calculated interest for %v to be %v, but got %v", balance, expectedInterest, calculatedInterest)
+		}
+	})
 }

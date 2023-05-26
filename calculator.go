@@ -11,7 +11,13 @@ func CalculateInterest(balance float64) float64 {
 
 	interestRate := DefaultInterest
 
-	if balance >= 1000.00 {
+	if balance >= 50000.00 {
+		interestRate = 0.03
+	} else if balance >= 10000.00 {
+		interestRate = 0.025
+	} else if balance >= 5000.00 {
+		interestRate = 0.02
+	} else if balance >= 1000.00 {
 		interestRate = 0.015
 	}
 
