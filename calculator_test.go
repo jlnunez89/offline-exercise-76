@@ -33,6 +33,19 @@ func TestCalculateInterest(t *testing.T) {
 		assert.Equal(t, expectedInterest, interest)
 	})
 
+	// added this test explicitly because it was given to me.
+	t.Run("Test a balance of 1001", func(t *testing.T) {
+		// arrange
+		balance := 1001.0
+		expectedInterest := 15.02
+
+		// act
+		calculatedInterest := CalculateInterest(balance)
+
+		// assert
+		require.Equal(t, expectedInterest, calculatedInterest)
+	})
+
 	t.Run("Test balances between 0 and 1000", func(t *testing.T) {
 		// arrange
 		epsilon := 0.01 // since one cent is normally the smallest unit of currency

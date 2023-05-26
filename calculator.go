@@ -9,6 +9,7 @@ func CalculateInterest(balance float64) float64 {
 		return 0
 	}
 
+	balanceInCents := balance * 100.0
 	interestRate := DefaultInterest
 
 	if balance >= 50000.00 {
@@ -21,10 +22,8 @@ func CalculateInterest(balance float64) float64 {
 		interestRate = 0.015
 	}
 
-	balanceInCents := balance * interestRate * 100.0
-
 	// round to nearest even number because financial calculations are like that.
-	roundedInterest := math.RoundToEven(balanceInCents) / 100.0
+	roundedInterest := math.RoundToEven(balanceInCents*interestRate) / 100.0
 
 	return roundedInterest
 }
