@@ -66,4 +66,21 @@ func TestCalculateInterest(t *testing.T) {
 			require.Equal(t, expectedInterest, calculatedInterest, "Expected calculated interest for %v to be %v, but got %v", balance, expectedInterest, calculatedInterest)
 		}
 	})
+
+	t.Run("Test balances between 5000 and 10000", func(t *testing.T) {
+		// arrange
+		epsilon := 0.01 // since one cent is normally the smallest unit of currency
+		lowerLimitBalance := 5000.0
+		upperLimitBalance := 10000.0 - epsilon
+		expectedInterestPercentage := 0.02
+
+		for balance := lowerLimitBalance; balance < upperLimitBalance; balance += epsilon {
+			// act
+			calculatedInterest := CalculateInterest(balance)
+			expectedInterest := math.RoundToEven(balance*expectedInterestPercentage*100.0) / 100.0 // round to nearest even number because finance
+
+			// assert
+			require.Equal(t, expectedInterest, calculatedInterest, "Expected calculated interest for %v to be %v, but got %v", balance, expectedInterest, calculatedInterest)
+		}
+	})
 }
